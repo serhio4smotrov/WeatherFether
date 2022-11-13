@@ -9,8 +9,10 @@ import com.example.weatherfether.feature.weather_screen.data.WeatherRemoteSource
 import com.example.weatherfether.feature.weather_screen.data.WeatherRepo
 import com.example.weatherfether.feature.weather_screen.data.WeatherRepoImpl
 import com.example.weatherfether.feature.weather_screen.ui.WeatherScreenPresenter
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     private lateinit var presenter: WeatherScreenPresenter
@@ -29,9 +31,9 @@ class MainActivity : AppCompatActivity() {
         val textViewHello = findViewById<TextView>(R.id.tvHello)
         var weather = ""
         GlobalScope.launch {
-          Log.d(presenter.interactor.getWeather())
+            withContext(Dispatchers.Main) {
+                textViewHello.text = presenter.getWeather()
+            }
         }
-        textViewHello.text
-
     }
 }
